@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Card, Collapse, Container, IconButton, IconButtonProps, Stack, styled, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CardFlyout from './CardFlyout';
-import { buyObj } from '../Home';
+import { buyObj, rechargeObj } from '../Home';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -14,7 +14,8 @@ interface UserCardProps {
     expandIdx: number,
     onExpand: (idx: number) => void,
     expandedIdx: number,
-    onBuyClick: (obj: buyObj) => void
+    onBuyClick: (obj: buyObj) => void,
+    onRechargeClick: (obj: rechargeObj) => void
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -35,7 +36,7 @@ const StyledCard = styled(Card)({
 })
 
 const UserCard = (props: UserCardProps) => {
-    const { name, amount, expandIdx, expandedIdx, onExpand, onBuyClick } = props
+    const { name, amount, expandIdx, expandedIdx, onExpand, onBuyClick, onRechargeClick } = props
     const roundedAmount = amount.toFixed(2)
     const isExpanded = expandedIdx === expandIdx
 
@@ -45,6 +46,13 @@ const UserCard = (props: UserCardProps) => {
                 user: name,
                 selectedDrinks: _selectedDrinks
             })
+    }
+
+    const handleRechargeClick = (_amount: number | 'new') => {
+        onRechargeClick({
+            user: name,
+            rechargeAmount: _amount
+        })
     }
 
     return (
@@ -67,7 +75,7 @@ const UserCard = (props: UserCardProps) => {
                     </Stack>
                 </Box>
                 <Collapse in={isExpanded} timeout="auto" unmountOnExit sx={{ backgroundColor: '#f2f2f2' }}>
-                    <CardFlyout onBuyClick={handleBuyClick} />
+                    <CardFlyout onBuyClick={handleBuyClick} onRechargeClick={handleRechargeClick} />
                 </Collapse>
             </StyledCard>
         </Container>

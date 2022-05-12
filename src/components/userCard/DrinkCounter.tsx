@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Add, Remove } from '@mui/icons-material';
-import { Avatar, IconButton, Stack, styled, Typography } from '@mui/material';
+import { IconButton, Stack, Typography } from '@mui/material';
+import ButtonCircle from '../styledComponents/ButtonCircles';
 
-const ButtonCircle = styled(Avatar)({
-    minWidth: "3rem", minHeight: "3rem"
-})
 
 interface CounterProps {
     drink: { id: number, name: string, cost: number }

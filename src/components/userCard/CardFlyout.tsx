@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Button, CardContent, Stack, styled, Tab, Tabs, Typography } from '@mui/material';
+import { Avatar, Button, CardContent, Stack, styled, Tab, Tabs, Typography } from '@mui/material';
 import Counter from './DrinkCounter';
 import TabContent from '../styledComponents/TabContent';
+import ButtonCircle from '../styledComponents/ButtonCircles';
+import { QuestionMark } from '@mui/icons-material';
 
 const StyledTab = styled(Tab)(
     ({ theme }) => ({
@@ -29,12 +31,14 @@ const drinkMockData = [
 
 interface CardFlyoutProps {
     onBuyClick: (selectedDrinksObj: any) => void
+    onRechargeClick: (amount: number | 'new') => void
 }
 
 const CardFylout = (props: CardFlyoutProps) => {
-    const { onBuyClick } = props
+    const { onBuyClick, onRechargeClick } = props
     const [openTab, setOpenTab] = useState(0)
     let drinkCounts: any = {}
+    const presets = [5, 10, 15];
 
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -76,11 +80,23 @@ const CardFylout = (props: CardFlyoutProps) => {
                 </Button>
             </TabContent>
             <TabContent openTab={openTab} index={1}>
-                <Typography>Hier wird aufgeladen</Typography>
+                {/* add recharge money section */}
+
+                <Stack direction="row" spacing={2} justifyContent='center'>
+                    {presets.map((pre, idx) =>
+                        <Button key={idx} onClick={() => onRechargeClick(pre)}>
+                            <ButtonCircle >{pre}</ButtonCircle>
+                        </Button>
+                    )}
+                    <Button onClick={() => onRechargeClick('new')}>
+                        <ButtonCircle>
+                            <QuestionMark />
+                        </ButtonCircle>
+                    </Button>
+                </Stack>
             </TabContent>
         </CardContent >
     )
 }
-
 
 export default CardFylout;
