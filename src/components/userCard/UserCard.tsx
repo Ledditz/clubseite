@@ -40,7 +40,7 @@ const UserCard = (props: UserCardProps) => {
     const isExpanded = expandedIdx === expandIdx
 
     const handleBuyClick = (_selectedDrinks: any) => {
-        if (_selectedDrinks !== {})
+        if (Object.keys(_selectedDrinks).length !== 0)
             onBuyClick({
                 user: name,
                 selectedDrinks: _selectedDrinks
