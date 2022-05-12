@@ -1,7 +1,6 @@
-import { Box, Card, CardContent, Collapse, Container, Grid, IconButton, IconButtonProps, Stack, styled, Typography } from '@mui/material';
+import React from 'react';
+import { Box, Card, Collapse, Container, IconButton, IconButtonProps, Stack, styled, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { useState } from 'react';
-import { lightBlue } from '@mui/material/colors';
 import CardFlyout from './CardFlyout';
 
 interface ExpandMoreProps extends IconButtonProps {

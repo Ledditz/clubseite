@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './Home';
+import Home from './components/Home';
 import { AppBar } from '@mui/material';
 
 const root = ReactDOM.createRoot(

@@ -1,6 +1,6 @@
-import { Container, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import React, { useState } from 'react';
-import UserCard from './UserCard';
+import UserCard from './userCard/UserCard';
 
 interface user {
     name: string,
