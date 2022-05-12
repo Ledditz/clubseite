@@ -7,13 +7,12 @@ const ButtonCircle = styled(Avatar)({
 })
 
 interface CounterProps {
-    id: number
-    drinkName: string,
+    drink: { id: number, name: string, cost: number }
     onAmountChange: (_drinkID: number, _newAmount: number) => void
 }
 
 const Counter = (props: CounterProps) => {
-    const { id, drinkName, onAmountChange } = props
+    const { drink, onAmountChange } = props
     const [count, setCount] = useState(0)
 
     const handleCountChange = (_diff: number) => {
@@ -25,11 +24,11 @@ const Counter = (props: CounterProps) => {
     }
 
     useEffect(() => {
-        onAmountChange(id, count)
+        onAmountChange(drink.id, count)
     }, [count])
 
     return (
-        <Stack key={id} direction="row" spacing={2} alignItems="center">
+        <Stack direction="row" spacing={2} alignItems="center">
             <Stack direction="row" alignItems="center" spacing={1} justifyContent="flex-start">
                 <IconButton onClick={() => handleCountChange(-1)}>
                     <ButtonCircle sx={{ minWidth: "3rem", minHeight: "3rem" }}>
@@ -43,7 +42,7 @@ const Counter = (props: CounterProps) => {
                     </ButtonCircle>
                 </IconButton>
             </Stack>
-            <Typography variant='h6'>{drinkName}</Typography>
+            <Typography variant='h6'>{drink.name}</Typography>
         </Stack >
     )
 }

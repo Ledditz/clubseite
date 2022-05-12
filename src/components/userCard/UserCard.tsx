@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Card, Collapse, Container, IconButton, IconButtonProps, Stack, styled, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CardFlyout from './CardFlyout';
+import { buyObj } from '../Home';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -12,7 +13,8 @@ interface UserCardProps {
     amount: number,
     expandIdx: number,
     onExpand: (idx: number) => void,
-    expandedIdx: number
+    expandedIdx: number,
+    onBuyClick: (obj: buyObj) => void
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -33,13 +35,16 @@ const StyledCard = styled(Card)({
 })
 
 const UserCard = (props: UserCardProps) => {
-    const { name, amount, expandIdx, expandedIdx, onExpand } = props
+    const { name, amount, expandIdx, expandedIdx, onExpand, onBuyClick } = props
     const roundedAmount = amount.toFixed(2)
     const isExpanded = expandedIdx === expandIdx
 
-    const handleBuyClick = (_drinksObj: any) => {
-        alert("Herzlichen Glückwunsch: " + _drinksObj.toString())
-        onExpand(expandIdx)
+    const handleBuyClick = (_selectedDrinks: any) => {
+        if (_selectedDrinks !== {})
+            onBuyClick({
+                user: name,
+                selectedDrinks: _selectedDrinks
+            })
     }
 
     return (

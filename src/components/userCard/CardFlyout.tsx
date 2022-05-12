@@ -22,9 +22,9 @@ const StyledTabs = styled(Tabs)({
 })
 
 const drinkMockData = [
-    { id: 1, name: 'Bier', cost: '1.5' },
-    { id: 2, name: 'Cola', cost: '1' },
-    { id: 3, name: 'Dickes', cost: '2' },
+    { id: 1, name: 'Bier', cost: 1.5 },
+    { id: 2, name: 'Cola', cost: 1 },
+    { id: 3, name: 'Dickes', cost: 2 },
 ]
 
 interface CardFlyoutProps {
@@ -65,8 +65,10 @@ const CardFylout = (props: CardFlyoutProps) => {
             </StyledTabs>
             <TabContent openTab={openTab} index={0}>
                 <Stack spacing={2}>
-                    {drinkMockData.map(drink =>
-                        <Counter id={drink.id} drinkName={drink.name} onAmountChange={handleDrinkAmountChange} />
+                    {drinkMockData.map((drink, idx) =>
+                        <div key={idx}>
+                            <Counter drink={drink} onAmountChange={handleDrinkAmountChange} />
+                        </div>
                     )}
                 </Stack>
                 <Button variant='contained' sx={{ width: '100%', marginTop: '1rem' }} onClick={() => onBuyClick(drinkCounts)}>
@@ -76,7 +78,7 @@ const CardFylout = (props: CardFlyoutProps) => {
             <TabContent openTab={openTab} index={1}>
                 <Typography>Hier wird aufgeladen</Typography>
             </TabContent>
-        </CardContent>
+        </CardContent >
     )
 }
 
