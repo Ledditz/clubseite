@@ -26,7 +26,7 @@ const BuyDialog = (props: BuyDialogProps) => {
     }
 
     return (
-        <Dialog open={open} onClose={() => handleClose('cancel')}>
+        <Dialog open={open} onClose={() => handleClose('cancel')} fullWidth={true}>
             <DialogTitle>
                 Kauf bestätigen
             </DialogTitle>

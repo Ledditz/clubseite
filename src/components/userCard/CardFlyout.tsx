@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar, Button, CardContent, Stack, styled, Tab, Tabs, Typography } from '@mui/material';
+import { Button, CardContent, Stack, styled, Tab, Tabs } from '@mui/material';
 import Counter from './DrinkCounter';
 import TabContent from '../styledComponents/TabContent';
 import ButtonCircle from '../styledComponents/ButtonCircles';
@@ -85,7 +85,7 @@ const CardFylout = (props: CardFlyoutProps) => {
                 <Stack direction="row" spacing={2} justifyContent='center'>
                     {presets.map((pre, idx) =>
                         <Button key={idx} onClick={() => onRechargeClick(pre)}>
-                            <ButtonCircle >{pre}</ButtonCircle>
+                            <ButtonCircle >{pre}€</ButtonCircle>
                         </Button>
                     )}
                     <Button onClick={() => onRechargeClick('new')}>
