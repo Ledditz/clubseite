@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogProps, DialogTitle, Typography } from '@mui/material';
 import { buyObj } from '../Home';
 

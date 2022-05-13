@@ -1,4 +1,3 @@
-import React from 'react';
 import { Avatar, styled } from '@mui/material';
 
 const ButtonCircle = styled(Avatar)({

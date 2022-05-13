@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import SearchBar from './SearchBar';
 import BuyDialog from './userCard/BuyDialog';
@@ -84,8 +84,7 @@ const Home = () => {
     }
 
     return (
-
-        <Box >
+        <Box bgcolor={"lightgray"}>
             <Box padding={1} bgcolor="lightblue" marginBottom={2}>
                 <SearchBar onInputChange={handleInputChange} />
             </Box>

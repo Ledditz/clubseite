@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Add, Remove } from '@mui/icons-material';
 import { IconButton, Stack, Typography } from '@mui/material';
 import ButtonCircle from '../styledComponents/ButtonCircles';
