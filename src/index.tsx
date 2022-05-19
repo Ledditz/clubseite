@@ -1,25 +1,14 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import { Box } from '@mui/material';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import Login from './components/Login';
+import App from './App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(
-  <Box>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="*" element={<Navigate to="/login" />} />
-      </Routes>
-    </BrowserRouter>
-  </Box>
+
+root.render(<App />
 );
 
 // If you want your app to work offline and load faster, you can change

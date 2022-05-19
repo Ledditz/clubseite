@@ -1,13 +1,18 @@
 import { useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import SearchBar from './SearchBar';
 import BuyDialog from './userCard/BuyDialog';
 import RechargeDialog from './userCard/RechargeDialog';
 import UserCard from './userCard/UserCard';
+import { useNavigate } from 'react-router-dom';
 
 interface user {
     name: string,
     amount: number
+}
+
+interface HomeProps {
+    onLogoutClick: () => void
 }
 
 export interface buyObj {
@@ -38,13 +43,14 @@ const userDataMock: user[] = [
     { name: "Spritt Kanne", amount: 0.5 }
 ]
 
-const Home = () => {
+const Home = (props: HomeProps) => {
+    const { onLogoutClick } = props
     const [isExpanded, setIsExpanded] = useState<number>(-1)
     const [dialogOpen, setDialogOpen] = useState<string>('')
     const [drinkData, setDrinkData] = useState<any>({})
     const [rechargeData, setRechargeData] = useState<any>({})
     const [filteredUserData, setFilteredUserData] = useState<user[]>([])
-
+    const navigate = useNavigate()
 
     const handleExpandChange = (idx: number) => {
         setIsExpanded(idx === isExpanded ? -1 : idx)
@@ -65,6 +71,11 @@ const Home = () => {
         // console.log(rechargeObj)
         setRechargeData(rechargeObj)
         setDialogOpen('recharge')
+    }
+
+    const handleLogoutClick = () => {
+        onLogoutClick()
+        navigate("/login")
     }
 
     const handleInputChange = (_term: string) => {
@@ -100,6 +111,7 @@ const Home = () => {
                         onBuyClick={handleBuyClick}
                         onRechargeClick={handleRechargeClick}
                     />)}
+                <Button fullWidth variant="contained" color='warning' sx={{ minHeight: "4rem" }} onClick={() => handleLogoutClick()}>Logout</Button>
             </Stack>
             <BuyDialog open={dialogOpen === 'buy'} onClose={handleCloseDialog} drinksData={drinkData} />
             <RechargeDialog open={dialogOpen === 'recharge'} onClose={handleCloseDialog} rechargeObj={rechargeData} />
