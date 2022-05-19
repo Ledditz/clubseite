@@ -30,27 +30,29 @@ const drinkMockData = [
 ]
 
 interface CardFlyoutProps {
+    userMoney: number,
     onBuyClick: (selectedDrinksObj: any) => void
     onRechargeClick: (amount: number | 'new') => void
 }
 
 const CardFylout = (props: CardFlyoutProps) => {
-    const { onBuyClick, onRechargeClick } = props
-    const [openTab, setOpenTab] = useState(0)
-    let drinkCounts: any = {}
+    const { onBuyClick, onRechargeClick, userMoney } = props
+    const [openTab, setOpenTab] = useState(userMoney < 1 ? 1 : 0)
+    const [currentAmountToPay, setCurrentAmountToPay] = useState(0)
+    const [drinkCounts, setDrinkCounts] = useState<any>({})
     const presets = [5, 10, 15];
-
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setOpenTab(newValue);
     };
 
     const handleDrinkAmountChange = (_drinkID: number, _newAmount: number) => {
+        let newDrinkCounts = drinkCounts
         if (_newAmount === 0) {
-            delete drinkCounts[_drinkID]
+            delete newDrinkCounts[_drinkID]
         } else {
             // just rember id and amount if API handels costs self
-            drinkCounts[_drinkID] = _newAmount
+            newDrinkCounts[_drinkID] = _newAmount
 
             // or rember costs to send cost sum to API
             // const position = drinkMockData.findIndex(el => el.id === _drinkID)
@@ -59,6 +61,13 @@ const CardFylout = (props: CardFlyoutProps) => {
             //     cost: drinkMockData[position].cost
             // }
         }
+        let newAmount = 0;
+        Object.keys(newDrinkCounts).forEach((drink) => {
+            const position = drinkMockData.findIndex(el => el.id === parseInt(drink))
+            newAmount += drinkMockData[position].cost * newDrinkCounts[drink]
+        })
+        setCurrentAmountToPay(newAmount)
+        setDrinkCounts(newDrinkCounts)
     }
 
     return (
@@ -71,7 +80,7 @@ const CardFylout = (props: CardFlyoutProps) => {
                 <Stack spacing={2}>
                     {drinkMockData.map((drink, idx) =>
                         <div key={idx}>
-                            <Counter drink={drink} onAmountChange={handleDrinkAmountChange} />
+                            <Counter disabled={currentAmountToPay + drink.cost > userMoney} drink={drink} onAmountChange={handleDrinkAmountChange} />
                         </div>
                     )}
                 </Stack>

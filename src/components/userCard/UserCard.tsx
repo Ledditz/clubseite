@@ -75,7 +75,7 @@ const UserCard = (props: UserCardProps) => {
                     </Stack>
                 </Box>
                 <Collapse in={isExpanded} timeout="auto" unmountOnExit sx={{ backgroundColor: '#f2f2f2' }}>
-                    <CardFlyout onBuyClick={handleBuyClick} onRechargeClick={handleRechargeClick} />
+                    <CardFlyout userMoney={amount} onBuyClick={handleBuyClick} onRechargeClick={handleRechargeClick} />
                 </Collapse>
             </StyledCard>
         </Container>

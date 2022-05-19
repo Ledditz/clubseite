@@ -5,12 +5,13 @@ import ButtonCircle from '../styledComponents/ButtonCircles';
 
 
 interface CounterProps {
+    disabled: boolean
     drink: { id: number, name: string, cost: number }
     onAmountChange: (_drinkID: number, _newAmount: number) => void
 }
 
 const Counter = (props: CounterProps) => {
-    const { drink, onAmountChange } = props
+    const { drink, onAmountChange, disabled } = props
     const [count, setCount] = useState(0)
 
     const handleCountChange = (_diff: number) => {
@@ -29,13 +30,13 @@ const Counter = (props: CounterProps) => {
         <Stack direction="row" spacing={2} alignItems="center">
             <Stack direction="row" alignItems="center" spacing={1} justifyContent="flex-start">
                 <IconButton onClick={() => handleCountChange(-1)}>
-                    <ButtonCircle sx={{ minWidth: "3rem", minHeight: "3rem" }}>
+                    <ButtonCircle>
                         <Remove />
                     </ButtonCircle>
                 </IconButton>
                 <Typography variant="h4">{count}</Typography>
-                <IconButton onClick={() => handleCountChange(1)}>
-                    <ButtonCircle>
+                <IconButton color={disabled ? 'error' : 'default'} disabled={disabled} onClick={() => handleCountChange(1)}>
+                    <ButtonCircle sx={disabled ? { backgroundColor: '#e6e6e6' } : undefined}>
                         <Add />
                     </ButtonCircle>
                 </IconButton>
