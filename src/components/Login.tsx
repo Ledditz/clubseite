@@ -31,7 +31,7 @@ function Login(props: LoginProps) {
         if (userName !== '' && password !== '') {
             const token = await login({ name: userName, password })
             setToken({ token })
-            navigate('/home')
+            navigate('/clubseite/home')
         }
     }
 
