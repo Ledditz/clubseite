@@ -12,8 +12,8 @@ function App() {
         <Box>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/clubseite/login" element={isTokenValid ? <Navigate to="/clubseite/home" /> : <Login setToken={setToken} />} />
-                    <Route path="/clubseite/home" element={
+                    <Route path="/login" element={isTokenValid ? <Navigate to="/home" /> : <Login setToken={setToken} />} />
+                    <Route path="/home" element={
                         <RequireAuth>
                             <Home onLogoutClick={deleteToken} />
                         </RequireAuth>
@@ -33,7 +33,7 @@ const RequireAuth = ({ children }: { children: JSX.Element }) => {
 
     // here check if jwt token is expired
     if (!isTokenValid) {
-        return <Navigate to="/clubseite/login" state={{ from: location }} />
+        return <Navigate to="/login" state={{ from: location }} />
     }
 
     return children

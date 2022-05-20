@@ -75,7 +75,7 @@ const Home = (props: HomeProps) => {
 
     const handleLogoutClick = () => {
         onLogoutClick()
-        navigate("/clubseite/login")
+        navigate("/login")
     }
 
     const handleInputChange = (_term: string) => {
