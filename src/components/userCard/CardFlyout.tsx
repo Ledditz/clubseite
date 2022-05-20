@@ -84,7 +84,7 @@ const CardFylout = (props: CardFlyoutProps) => {
                         </div>
                     )}
                 </Stack>
-                <Button variant='contained' sx={{ width: '100%', marginTop: '1rem' }} onClick={() => onBuyClick(drinkCounts)}>
+                <Button disabled={Object.keys(drinkCounts).length === 0} variant='contained' sx={{ width: '100%', marginTop: '1rem' }} onClick={() => onBuyClick(drinkCounts)}>
                     Abfahrt
                 </Button>
             </TabContent>

@@ -40,7 +40,7 @@ const RechargeDialog = (props: RechargeDialogProps) => {
     }
 
     return (
-        <Dialog open={open} onClose={() => handleClose('cancel')} fullWidth={true}>
+        <Dialog open={open} onClose={() => handleClose('cancel')} fullWidth maxWidth='xs'>
             <DialogTitle>
                 Aufladen
             </DialogTitle>

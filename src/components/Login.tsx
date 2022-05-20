@@ -1,5 +1,5 @@
 import { Close, Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, Button, Card, CardActions, CardContent, Checkbox, Container, FormControlLabel, FormGroup, IconButton, InputAdornment, OutlinedInput, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Checkbox, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, OutlinedInput, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import login from '../hooks/useLogin';
@@ -15,6 +15,7 @@ function Login(props: LoginProps) {
     const [password, setPassword] = useState('')
     const [passwordVisible, setPasswordVisible] = useState(false)
     const [stayLoggedIn, setStayLoggedIn] = useState(false)
+    const [open, setOpen] = useState(false)
 
     const navigate = useNavigate()
 
@@ -30,9 +31,21 @@ function Login(props: LoginProps) {
         e.preventDefault()
         if (userName !== '' && password !== '') {
             const token = await login({ name: userName, password })
-            setToken({ token })
-            navigate('/home')
+            if (token) {
+                setToken({ token })
+                navigate('/home')
+            } else {
+                setOpen(true)
+            }
+        } else {
+            setOpen(true)
         }
+    }
+
+    const handleLoginFailed = () => {
+        setOpen(false)
+        setUserName('')
+        setPassword('')
     }
 
     return (
@@ -82,9 +95,19 @@ function Login(props: LoginProps) {
                         <CardActions>
                             <Button fullWidth type="submit" variant='contained'>Login</Button>
                         </CardActions>
-
                     </form>
                 </Card>
+                <Dialog open={open} onClose={() => handleLoginFailed()} fullWidth maxWidth='xs'>
+                    <DialogTitle>
+                        <Typography>Login fehlgeschlagen</Typography>
+                    </DialogTitle>
+                    <DialogContent>
+                        <Typography>Nutzername oder Passwort falsch.</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => handleLoginFailed()}>Ok</Button>
+                    </DialogActions>
+                </Dialog>
             </Container>
         </Box >
     );
