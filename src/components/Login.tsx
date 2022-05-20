@@ -36,7 +36,7 @@ function Login(props: LoginProps) {
     }
 
     return (
-        <Box paddingTop={40}>
+        <Box paddingTop={'30vh'}>
             <Container maxWidth="xs">
                 <Card>
                     <form onSubmit={handleLoginClick}>
