@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import useToken from "./hooks/useToken";
@@ -10,7 +10,8 @@ function App() {
 
     return (
         <Box>
-            <BrowserRouter>
+            {/* <BrowserRouter> */}
+            <HashRouter>
                 <Routes>
                     <Route path="/login" element={isTokenValid ? <Navigate to="/home" /> : <Login setToken={setToken} />} />
                     <Route path="/home" element={
@@ -20,7 +21,8 @@ function App() {
                     } />
                     <Route path="*" element={<Navigate to="/home" />} />
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
+            {/* </BrowserRouter> */}
         </Box>
     );
 }
