@@ -6,7 +6,7 @@ import login from '../hooks/useLogin';
 import { TokenObj } from '../hooks/useToken';
 
 interface LoginProps {
-    setToken: (token: TokenObj) => void
+    setToken: (token: TokenObj, save: boolean) => void
 }
 
 function Login(props: LoginProps) {
@@ -14,9 +14,8 @@ function Login(props: LoginProps) {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [passwordVisible, setPasswordVisible] = useState(false)
-    const [stayLoggedIn, setStayLoggedIn] = useState(false)
+    const [stayLoggedIn, setStayLoggedIn] = useState(true)
     const [open, setOpen] = useState(false)
-
     const navigate = useNavigate()
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +31,7 @@ function Login(props: LoginProps) {
         if (userName !== '' && password !== '') {
             const token = await login({ name: userName, password })
             if (token) {
-                setToken({ token })
+                setToken({ token }, stayLoggedIn)
                 navigate('/home')
             } else {
                 setOpen(true)

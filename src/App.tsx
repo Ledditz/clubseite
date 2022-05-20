@@ -8,7 +8,7 @@ import useToken from "./hooks/useToken";
 
 
 function App() {
-    const { isTokenValid, setToken, deleteToken } = useToken()
+    const { isTokenValid, setToken, deleteToken, token } = useToken()
 
     return (
         <Box sx={{ height: "100vh", backgroundColor: "#e6f2ff" }}>
@@ -17,7 +17,7 @@ function App() {
                 <Routes>
                     <Route path="/login" element={isTokenValid ? <Navigate to="/home" /> : <Login setToken={setToken} />} />
                     <Route path="/home" element={
-                        <RequireAuth>
+                        <RequireAuth token={token} isValid={isTokenValid} deleteToken={deleteToken}>
                             <Home onLogoutClick={deleteToken} />
                         </RequireAuth>
                     } />
@@ -31,8 +31,16 @@ function App() {
 
 export default App;
 
-const RequireAuth = ({ children }: { children: JSX.Element }) => {
-    const { isTokenValid, token, deleteToken } = useToken()
+
+interface RequireAuthProps {
+    token: string | undefined,
+    children: JSX.Element,
+    isValid: boolean,
+    deleteToken: () => void
+}
+
+const RequireAuth = (props: RequireAuthProps) => {
+    const { token, children, deleteToken, isValid } = props
     const [showInfo, setShowInfo] = useState(true)
     const navigate = useNavigate()
 
@@ -46,7 +54,7 @@ const RequireAuth = ({ children }: { children: JSX.Element }) => {
     if (!token) {
         return <Navigate to="/login" />
     }
-    if (!isTokenValid) {
+    if (!isValid) {
         return <SessionEndedInfo open={showInfo} onClose={handleCloseInfo} />
     }
 
