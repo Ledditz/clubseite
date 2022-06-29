@@ -1,7 +1,8 @@
-import { Close, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Brightness4, Brightness7, Close, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Button, Card, CardActions, CardContent, Checkbox, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, FormGroup, IconButton, InputAdornment, OutlinedInput, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useColorMode } from '../ColorModeContext';
 import login from '../hooks/useLogin';
 import { TokenObj } from '../hooks/useToken';
 
@@ -17,6 +18,7 @@ function Login(props: LoginProps) {
     const [stayLoggedIn, setStayLoggedIn] = useState(true)
     const [open, setOpen] = useState(false)
     const navigate = useNavigate()
+    const { mode, toggleColorMode } = useColorMode()
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUserName(event.target.value.trim())
@@ -47,15 +49,17 @@ function Login(props: LoginProps) {
         setPassword('')
     }
 
-    return (
-        <Box paddingTop={'30vh'}>
+    return (<>
+        <IconButton sx={{ padding: '1rem' }} onClick={() => toggleColorMode()}>
+            {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
+        <Box paddingTop={'25vh'}>
             <Container maxWidth="xs">
                 <Card>
                     <form onSubmit={handleLoginClick}>
                         <CardContent>
                             <Typography>Herzlich Willkommen</Typography>
                             <OutlinedInput
-                                sx={{ backgroundColor: "#ffffff" }}
                                 placeholder="Name"
                                 fullWidth
                                 endAdornment={userName !== '' &&
@@ -71,7 +75,6 @@ function Login(props: LoginProps) {
                                 onChange={handleNameChange}
                             />
                             <OutlinedInput
-                                sx={{ backgroundColor: "#ffffff" }}
                                 type={passwordVisible ? 'text' : 'password'}
                                 placeholder="Passwort"
                                 fullWidth
@@ -109,6 +112,7 @@ function Login(props: LoginProps) {
                 </Dialog>
             </Container>
         </Box >
+    </>
     );
 }
 
