@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import SearchBar from './SearchBar';
 import BuyDialog from './userCard/BuyDialog';
 import RechargeDialog from './userCard/RechargeDialog';
 import UserCard from './userCard/UserCard';
 import { useNavigate } from 'react-router-dom';
+import { useColorMode } from '../ColorModeContext';
 
 interface user {
     name: string,
@@ -50,6 +51,7 @@ const Home = (props: HomeProps) => {
     const [drinkData, setDrinkData] = useState<any>({})
     const [rechargeData, setRechargeData] = useState<any>({})
     const [filteredUserData, setFilteredUserData] = useState<user[]>([])
+    const { mode } = useColorMode()
     const navigate = useNavigate()
 
     const handleExpandChange = (idx: number) => {
@@ -95,10 +97,8 @@ const Home = (props: HomeProps) => {
     }
 
     return (
-        <Box bgcolor={"lightgray"}>
-            <Box padding={1} bgcolor="lightblue" marginBottom={2}>
-                <SearchBar onInputChange={handleInputChange} />
-            </Box>
+        <Box bgcolor={mode === 'light' ? "lightgray" : "grey"}>
+            <SearchBar onInputChange={handleInputChange} onLogoutClick={handleLogoutClick} />
             <Stack direction="column" alignItems="flex-start" justifyContent="center">
                 {filteredUserData.map((user, idx) =>
                     <UserCard
@@ -111,7 +111,6 @@ const Home = (props: HomeProps) => {
                         onBuyClick={handleBuyClick}
                         onRechargeClick={handleRechargeClick}
                     />)}
-                <Button fullWidth variant="contained" color='warning' sx={{ minHeight: "4rem" }} onClick={() => handleLogoutClick()}>Logout</Button>
             </Stack>
             <BuyDialog open={dialogOpen === 'buy'} onClose={handleCloseDialog} drinksData={drinkData} />
             <RechargeDialog open={dialogOpen === 'recharge'} onClose={handleCloseDialog} rechargeObj={rechargeData} />

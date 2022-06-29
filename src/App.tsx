@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
-import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { useColorMode } from "./ColorModeContext";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import SessionEndedInfo from "./components/SessionEndedInfo";
@@ -9,10 +10,9 @@ import useToken from "./hooks/useToken";
 
 function App() {
     const { isTokenValid, setToken, deleteToken, token } = useToken()
-
+    const { mode } = useColorMode()
     return (
-        <Box sx={{ height: "100vh", backgroundColor: "#e6f2ff" }}>
-            {/* <BrowserRouter> */}
+        <Box sx={{ minHeight: "100vh", backgroundColor: mode === 'light' ? '#e6f2ff' : '#424242' }}>
             <HashRouter>
                 <Routes>
                     <Route path="/login" element={isTokenValid ? <Navigate to="/home" /> : <Login setToken={setToken} />} />
@@ -24,7 +24,6 @@ function App() {
                     <Route path="*" element={<Navigate to="/home" />} />
                 </Routes>
             </HashRouter>
-            {/* </BrowserRouter> */}
         </Box>
     );
 }

@@ -56,7 +56,7 @@ const UserCard = (props: UserCardProps) => {
     }
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth='xs'>
             <StyledCard>
                 <Box>
                     <Stack direction="row" alignItems="center" justifyContent="space-between" onClick={() => onExpand(expandIdx)}>
@@ -74,11 +74,11 @@ const UserCard = (props: UserCardProps) => {
                         </Stack>
                     </Stack>
                 </Box>
-                <Collapse in={isExpanded} timeout="auto" unmountOnExit sx={{ backgroundColor: '#f2f2f2' }}>
+                <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                     <CardFlyout userMoney={amount} onBuyClick={handleBuyClick} onRechargeClick={handleRechargeClick} />
                 </Collapse>
             </StyledCard>
-        </Container>
+        </Container >
     )
 }
 

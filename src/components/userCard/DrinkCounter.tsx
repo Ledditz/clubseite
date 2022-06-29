@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Add, Remove } from '@mui/icons-material';
-import { IconButton, Stack, Typography } from '@mui/material';
+import { IconButton, Stack, Typography, useTheme } from '@mui/material';
 import ButtonCircle from '../styledComponents/ButtonCircles';
+import { useColorMode } from '../../ColorModeContext';
 
 
 interface CounterProps {
@@ -13,6 +14,8 @@ interface CounterProps {
 const Counter = (props: CounterProps) => {
     const { drink, onAmountChange, disabled } = props
     const [count, setCount] = useState(0)
+    const { mode } = useColorMode()
+    const theme = useTheme()
 
     const handleCountChange = (_diff: number) => {
         if ((count + _diff) < 0) {
@@ -36,7 +39,7 @@ const Counter = (props: CounterProps) => {
                 </IconButton>
                 <Typography variant="h4">{count}</Typography>
                 <IconButton color={disabled ? 'error' : 'default'} disabled={disabled} onClick={() => handleCountChange(1)}>
-                    <ButtonCircle sx={disabled ? { backgroundColor: '#e6e6e6' } : undefined}>
+                    <ButtonCircle sx={disabled ? { backgroundColor: mode === 'light' ? theme.palette.grey[300] : theme.palette.grey[800] } : undefined}>
                         <Add />
                     </ButtonCircle>
                 </IconButton>

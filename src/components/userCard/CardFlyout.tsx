@@ -4,16 +4,14 @@ import Counter from './DrinkCounter';
 import TabContent from '../styledComponents/TabContent';
 import ButtonCircle from '../styledComponents/ButtonCircles';
 import { QuestionMark } from '@mui/icons-material';
+import { useColorMode } from '../../ColorModeContext';
 
 const StyledTab = styled(Tab)(
     ({ theme }) => ({
         textTransform: 'none',
-        backgroundColor: '#ffffff',
         fontWeight: theme.typography.fontWeightRegular,
         fontSize: 'large',
-        color: 'rgba(0, 0, 0, 0.85)',
         '&.Mui-selected': {
-            color: '#1890ff',
             fontWeight: theme.typography.fontWeightBold,
         },
     }),
@@ -89,8 +87,6 @@ const CardFylout = (props: CardFlyoutProps) => {
                 </Button>
             </TabContent>
             <TabContent openTab={openTab} index={1}>
-                {/* add recharge money section */}
-
                 <Stack direction="row" spacing={2} justifyContent='center'>
                     {presets.map((pre, idx) =>
                         <Button key={idx} onClick={() => onRechargeClick(pre)}>

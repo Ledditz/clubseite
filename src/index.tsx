@@ -3,12 +3,16 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import App from './App';
+import { ColorModeContextProvider } from './ColorModeContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-root.render(<App />
+root.render(
+  <ColorModeContextProvider>
+    <App />
+  </ColorModeContextProvider>
 );
 
 // If you want your app to work offline and load faster, you can change
