@@ -8,9 +8,14 @@ interface RechargeDialogProps extends DialogProps {
 }
 
 const RechargeDialog = (props: RechargeDialogProps) => {
-    const { open, onClose, rechargeObj } = props
+    const { open, onClose, rechargeObj: { rechargeAmount, user } } = props
     const [inputValue, setInputValue] = useState<number | string>('')
     const [inputError, setInputError] = useState(false)
+    const [showInputPrompt, setShowInputPromp] = useState(false)
+
+    useEffect(() => {
+        setShowInputPromp(rechargeAmount === 'new')
+    }, [rechargeAmount, user])
 
     const handleClose = (_status: 'confirm' | 'cancel') => {
         if (_status === 'confirm' && !inputError) {
@@ -22,21 +27,32 @@ const RechargeDialog = (props: RechargeDialogProps) => {
     }
 
     useEffect(() => {
-        if (open && rechargeObj.rechargeAmount && rechargeObj.rechargeAmount !== 'new') {
-            setInputValue(rechargeObj.rechargeAmount)
+        if (open && rechargeAmount && rechargeAmount !== 'new') {
+            setInputValue(rechargeAmount)
+        } else {
+            setShowInputPromp(true)
         }
     }, [open])
 
     useEffect(() => {
-        if (inputValue === '' || Number(inputValue) > 0) {
-            setInputError(false)
-        } else {
-            setInputError(true)
-        }
+        setInputError(!(inputValue === '' || Number(inputValue) > 0))
     }, [inputValue])
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value)
+        setInputValue(event.target.value.replace(',', '.'))
+    }
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        if (!inputError)
+            setShowInputPromp(false);
+    }
+
+    const getAmountString = (_value: number): string => {
+        if (_value % 1) {
+            return _value.toFixed(2)
+        }
+        return _value.toString()
     }
 
     return (
@@ -46,23 +62,25 @@ const RechargeDialog = (props: RechargeDialogProps) => {
             </DialogTitle>
             <DialogContent>
                 {
-                    rechargeObj.rechargeAmount !== 'new' && <>
-                        <Typography>Für {rechargeObj.user}</Typography>
-                        <Typography>{rechargeObj.rechargeAmount}€</Typography>
-                        <Typography> aufladen?</Typography>
+                    !showInputPrompt && <>
+                        <Typography display='inline'>Für {user}</Typography>
+                        <Typography display='inline' variant='h6' color='primary'> {getAmountString(Number(inputValue))}€</Typography>
+                        <Typography display='inline'> aufladen?</Typography>
                     </>
                 }
                 {
-                    rechargeObj.rechargeAmount === 'new' &&
-                    <OutlinedInput error={inputError} value={inputValue} onChange={handleInputChange} endAdornment={<InputAdornment position="end">€</InputAdornment>} />
+                    showInputPrompt &&
+                    <form onSubmit={handleSubmit}>
+                        <OutlinedInput autoFocus error={inputError} value={inputValue} onChange={handleInputChange} endAdornment={<InputAdornment position="end">€</InputAdornment>} />
+                    </form>
                 }
 
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => handleClose('cancel')}>Abbruch</Button>
-                <Button disabled={inputValue === '' || inputError} onClick={() => handleClose('confirm')}>und los</Button>
+                <Button disabled={inputValue === '' || inputError} onClick={() => showInputPrompt ? setShowInputPromp(false) : handleClose('confirm')}>und los</Button>
             </DialogActions>
-        </Dialog>
+        </Dialog >
     )
 }
 
