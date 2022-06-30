@@ -1,5 +1,5 @@
 import { createTheme, PaletteMode, ThemeOptions, ThemeProvider, useMediaQuery } from "@mui/material";
-import { blue, green, yellow } from "@mui/material/colors";
+import { blue, grey, yellow } from "@mui/material/colors";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 interface IColorModeContext {
@@ -36,7 +36,14 @@ export const ColorModeContextProvider = ({ children }: any) => {
             primary: {
                 ...blue,
                 ...(mode === 'dark' && {
-                    main: yellow[400]
+                    main: yellow[300]
+                })
+            },
+            secondary: {
+                ...(mode === 'dark' ? {
+                    main: grey[800]
+                } : {
+                    main: grey[200]
                 })
             }
         }

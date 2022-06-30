@@ -4,7 +4,6 @@ import Counter from './DrinkCounter';
 import TabContent from '../styledComponents/TabContent';
 import ButtonCircle from '../styledComponents/ButtonCircles';
 import { QuestionMark } from '@mui/icons-material';
-import { useColorMode } from '../../ColorModeContext';
 
 const StyledTab = styled(Tab)(
     ({ theme }) => ({

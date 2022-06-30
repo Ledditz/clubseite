@@ -97,9 +97,9 @@ const Home = (props: HomeProps) => {
     }
 
     return (
-        <Box bgcolor={mode === 'light' ? "lightgray" : "grey"}>
+        <Box bgcolor={mode === 'light' ? "lightgrey" : "grey"}>
             <SearchBar onInputChange={handleInputChange} onLogoutClick={handleLogoutClick} />
-            <Stack direction="column" alignItems="flex-start" justifyContent="center">
+            <Stack direction="column" alignItems="flex-start" justifyContent="center" marginTop={8} paddingTop={2}>
                 {filteredUserData.map((user, idx) =>
                     <UserCard
                         key={idx}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, IconButton, InputAdornment, OutlinedInput } from '@mui/material';
+import { AppBar, Box, Grid, IconButton, InputAdornment, OutlinedInput, styled } from '@mui/material';
 import { Brightness4, Brightness7, Close, Logout, Search } from '@mui/icons-material';
 import useDebounce from '../hooks/useDebounce';
 import { useColorMode } from '../ColorModeContext';
@@ -8,6 +8,12 @@ interface SearchBarProps {
     onInputChange: (term: string) => void;
     onLogoutClick: () => void;
 }
+
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+    backgroundColor: theme.palette.secondary.light,
+    marginBottom: '1rem',
+    padding: '0.5rem'
+}))
 
 export default function SearchBar(props: SearchBarProps) {
     const { onInputChange, onLogoutClick } = props
@@ -25,7 +31,7 @@ export default function SearchBar(props: SearchBarProps) {
     }, [debouncedSearchTerm])
 
     return (
-        <Box padding={1} marginBottom={2}>
+        <StyledAppBar>
             <Grid container justifyContent="space-between" alignItems="center">
                 <IconButton onClick={() => toggleColorMode()}>
                     {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
@@ -45,12 +51,10 @@ export default function SearchBar(props: SearchBarProps) {
                     value={value}
                     onChange={handleChange}
                 />
-                {/* <Grid item> */}
                 <IconButton onClick={() => onLogoutClick()}>
                     <Logout />
                 </IconButton>
-                {/* </Grid> */}
             </Grid>
-        </Box>
+        </StyledAppBar>
     );
 }

@@ -12,7 +12,7 @@ function App() {
     const { isTokenValid, setToken, deleteToken, token } = useToken()
     const { mode } = useColorMode()
     return (
-        <Box sx={{ minHeight: "100vh", backgroundColor: mode === 'light' ? '#e6f2ff' : '#424242' }}>
+        <Box sx={{ minHeight: "100vh", backgroundColor: mode === 'light' ? '#d3d3d3' : '#424242' }}>
             <HashRouter>
                 <Routes>
                     <Route path="/login" element={isTokenValid ? <Navigate to="/home" /> : <Login setToken={setToken} />} />

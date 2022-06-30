@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box, Card, Collapse, Container, IconButton, IconButtonProps, Stack, styled, Typography } from '@mui/material';
+import { Card, Collapse, Container, IconButton, IconButtonProps, Stack, styled, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CardFlyout from './CardFlyout';
 import { buyObj, rechargeObj } from '../Home';
@@ -30,9 +29,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 const StyledCard = styled(Card)({
-    minHeight: "3rem",
+    minHeight: "2.5rem",
     padding: "1rem",
-    marginBottom: "1rem"
+    marginBottom: "0.5rem"
 })
 
 const UserCard = (props: UserCardProps) => {
@@ -58,22 +57,20 @@ const UserCard = (props: UserCardProps) => {
     return (
         <Container maxWidth='xs'>
             <StyledCard>
-                <Box>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" onClick={() => onExpand(expandIdx)}>
-                        <Typography variant="h6">{name}</Typography>
-                        <Stack direction="row" alignItems="center" justifyContent="space-between">
-                            <Typography variant="h6" color={amount < 2 ? 'red' : ''}>{roundedAmount} €</Typography>
-                            <ExpandMore
-                                expand={isExpanded}
-                                onClick={() => onExpand(expandIdx)}
-                                aria-expanded={isExpanded}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon />
-                            </ExpandMore>
-                        </Stack>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" onClick={() => onExpand(expandIdx)}>
+                    <Typography variant="h6">{name}</Typography>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between">
+                        <Typography variant="h6" color={amount < 2 ? 'red' : ''}>{roundedAmount} €</Typography>
+                        <ExpandMore
+                            expand={isExpanded}
+                            onClick={() => onExpand(expandIdx)}
+                            aria-expanded={isExpanded}
+                            aria-label="show more"
+                        >
+                            <ExpandMoreIcon />
+                        </ExpandMore>
                     </Stack>
-                </Box>
+                </Stack>
                 <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                     <CardFlyout userMoney={amount} onBuyClick={handleBuyClick} onRechargeClick={handleRechargeClick} />
                 </Collapse>
