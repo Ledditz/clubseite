@@ -22,7 +22,7 @@ const StyledTabs = styled(Tabs)({
 
 const drinkMockData = [
     { id: 1, name: 'Bier', cost: 1.5 },
-    { id: 2, name: 'Cola', cost: 1 },
+    { id: 2, name: 'Limo', cost: 1 },
     { id: 3, name: 'Dickes', cost: 2 },
 ]
 
@@ -49,7 +49,10 @@ const CardFylout = (props: CardFlyoutProps) => {
             delete newDrinkCounts[_drinkID]
         } else {
             // just rember id and amount if API handels costs self
-            newDrinkCounts[_drinkID] = _newAmount
+            newDrinkCounts[_drinkID] = {
+                amount: _newAmount,
+                name: drinkMockData.find(el => el.id === _drinkID)?.name
+            }
 
             // or rember costs to send cost sum to API
             // const position = drinkMockData.findIndex(el => el.id === _drinkID)
@@ -61,7 +64,7 @@ const CardFylout = (props: CardFlyoutProps) => {
         let newAmount = 0;
         Object.keys(newDrinkCounts).forEach((drink) => {
             const position = drinkMockData.findIndex(el => el.id === parseInt(drink))
-            newAmount += drinkMockData[position].cost * newDrinkCounts[drink]
+            newAmount += drinkMockData[position].cost * newDrinkCounts[drink].amount
         })
         setCurrentAmountToPay(newAmount)
         setDrinkCounts(newDrinkCounts)

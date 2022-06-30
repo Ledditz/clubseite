@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogProps, DialogTitle, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogProps, DialogTitle, Typography } from '@mui/material';
 import { buyObj } from '../Home';
 
 interface BuyDialogProps extends DialogProps {
@@ -7,7 +7,7 @@ interface BuyDialogProps extends DialogProps {
 }
 
 const BuyDialog = (props: BuyDialogProps) => {
-    const { open, onClose, drinksData } = props
+    const { open, onClose, drinksData: { selectedDrinks, user } } = props
 
     const handleClose = (_status: 'confirm' | 'cancel') => {
         if (_status === 'confirm') {
@@ -18,8 +18,8 @@ const BuyDialog = (props: BuyDialogProps) => {
 
     const getDrinkTable = () => {
         let returnObj: any = [];
-        for (const key in drinksData.selectedDrinks) {
-            returnObj.push(<Typography key={key}>{drinksData.selectedDrinks[key]} x {key}</Typography>)
+        for (const key in selectedDrinks) {
+            returnObj.push(<Typography variant='h6' key={key}>{selectedDrinks[key].amount} x {selectedDrinks[key].name}</Typography>)
         }
         return returnObj
     }
@@ -30,10 +30,12 @@ const BuyDialog = (props: BuyDialogProps) => {
                 Kauf bestätigen
             </DialogTitle>
             <DialogContent>
-                <Typography>Für {drinksData.user} gibts:</Typography>
-                {
-                    getDrinkTable()
-                }
+                <Typography>Für {user} gibts:</Typography>
+                <Box paddingLeft={4}>
+                    {
+                        getDrinkTable()
+                    }
+                </Box>
 
             </DialogContent>
             <DialogActions>
