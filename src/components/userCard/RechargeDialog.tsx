@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogProps, DialogTitle, InputAdornment, OutlinedInput, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogProps, DialogTitle, InputAdornment, OutlinedInput, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { rechargeObj } from '../Home';
 
 interface RechargeDialogProps extends DialogProps {
@@ -12,6 +12,8 @@ const RechargeDialog = (props: RechargeDialogProps) => {
     const [inputValue, setInputValue] = useState<number | string>('')
     const [inputError, setInputError] = useState(false)
     const [showInputPrompt, setShowInputPromp] = useState(false)
+    const theme = useTheme()
+    const downSm = useMediaQuery(theme.breakpoints.down('sm'))
 
     useEffect(() => {
         setShowInputPromp(rechargeAmount === 'new')
@@ -20,7 +22,7 @@ const RechargeDialog = (props: RechargeDialogProps) => {
     const handleClose = (_status: 'confirm' | 'cancel') => {
         if (_status === 'confirm' && !inputError) {
             console.log("send API request")
-            console.log(inputValue + " aufladen")
+            console.log(Number(inputValue).toFixed(2) + " aufladen")
         }
         setInputValue('')
         onClose()
@@ -56,25 +58,22 @@ const RechargeDialog = (props: RechargeDialogProps) => {
     }
 
     return (
-        <Dialog open={open} onClose={() => handleClose('cancel')} fullWidth maxWidth='xs'>
+        <Dialog open={open} onClose={() => handleClose('cancel')} fullWidth={downSm} maxWidth='xs'>
             <DialogTitle>
                 Aufladen
             </DialogTitle>
-            <DialogContent>
+            <DialogContent >
                 {
-                    !showInputPrompt && <>
-                        <Typography display='inline'>Für {user}</Typography>
-                        <Typography display='inline' variant='h6' color='primary'> {getAmountString(Number(inputValue))}€</Typography>
-                        <Typography display='inline'> aufladen?</Typography>
-                    </>
+                    !showInputPrompt
+                        ? <>
+                            <Typography display='inline'>Für {user}</Typography>
+                            <Typography display='inline' variant='h6' color='primary'> {getAmountString(Number(inputValue))}€</Typography>
+                            <Typography display='inline'> aufladen?</Typography>
+                        </>
+                        : <form onSubmit={handleSubmit}>
+                            <OutlinedInput fullWidth inputProps={{ inputMode: 'numeric' }} autoFocus error={inputError} value={inputValue} onChange={handleInputChange} endAdornment={<InputAdornment position="end">€</InputAdornment>} />
+                        </form>
                 }
-                {
-                    showInputPrompt &&
-                    <form onSubmit={handleSubmit}>
-                        <OutlinedInput autoFocus error={inputError} value={inputValue} onChange={handleInputChange} endAdornment={<InputAdornment position="end">€</InputAdornment>} />
-                    </form>
-                }
-
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => handleClose('cancel')}>Abbruch</Button>
