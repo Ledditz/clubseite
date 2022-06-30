@@ -112,8 +112,8 @@ const Home = (props: HomeProps) => {
                         onRechargeClick={handleRechargeClick}
                     />)}
             </Stack>
-            <BuyDialog open={dialogOpen === 'buy'} onClose={handleCloseDialog} drinksData={drinkData} />
-            <RechargeDialog open={dialogOpen === 'recharge'} onClose={handleCloseDialog} rechargeObj={rechargeData} />
+            {dialogOpen === 'buy' && <BuyDialog open onClose={handleCloseDialog} drinksData={drinkData} />}
+            {dialogOpen === 'recharge' && <RechargeDialog open onClose={handleCloseDialog} rechargeObj={rechargeData} />}
         </Box>
 
     )

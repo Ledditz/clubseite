@@ -8,7 +8,7 @@ interface RechargeDialogProps extends DialogProps {
 }
 
 const RechargeDialog = (props: RechargeDialogProps) => {
-    const { open, onClose, rechargeObj: { rechargeAmount, user } } = props
+    const { onClose, rechargeObj: { rechargeAmount, user } } = props
     const [inputValue, setInputValue] = useState<number | string>('')
     const [inputError, setInputError] = useState(false)
     const [showInputPrompt, setShowInputPromp] = useState(false)
@@ -29,12 +29,12 @@ const RechargeDialog = (props: RechargeDialogProps) => {
     }
 
     useEffect(() => {
-        if (open && rechargeAmount && rechargeAmount !== 'new') {
+        if (rechargeAmount && rechargeAmount !== 'new') {
             setInputValue(rechargeAmount)
         } else {
             setShowInputPromp(true)
         }
-    }, [open])
+    }, [])
 
     useEffect(() => {
         setInputError(!(inputValue === '' || Number(inputValue) > 0))
@@ -58,7 +58,7 @@ const RechargeDialog = (props: RechargeDialogProps) => {
     }
 
     return (
-        <Dialog open={open} onClose={() => handleClose('cancel')} fullWidth={downSm} maxWidth='xs'>
+        <Dialog open onClose={() => handleClose('cancel')} fullWidth={downSm} maxWidth='xs'>
             <DialogTitle>
                 Aufladen
             </DialogTitle>
