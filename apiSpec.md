@@ -1,9 +1,9 @@
 
 # POST ``/login``
 
-route zum login des Nutzers
+Route zum login des Nutzers
 
-## payload
+### payload
 
 Keine Ahnung ob man die Daten beim Request noch zusätzlich verschlüsseln sollte.
 
@@ -14,7 +14,7 @@ Keine Ahnung ob man die Daten beim Request noch zusätzlich verschlüsseln sollt
 }
 ```
 
-## return
+### return
 
 Setzt zusätzlich den Authentication Cookie.
 
@@ -28,7 +28,7 @@ Setzt zusätzlich den Authentication Cookie.
 
 Gibt Liste aller Nutzer zurück.
 
-## return
+### return
 
 ```json
 {
@@ -37,13 +37,13 @@ Gibt Liste aller Nutzer zurück.
 }
 ```
 
-## user object
+### user object
 
 aktuelle nur name.. könnte man noch in Vor-/Nachname aufteilen, jenachdem \
 und money.. mehr Infos brauch ich aktuell nicht für einen Nutzer
 
 ```json
-user: {
+"user": {
     "id": "string | number",
     "name": "string",
     "money": "number"
@@ -65,7 +65,7 @@ oder halt fancy englische Bezeichnungen :D
 Liste aller verfügbaren Getränke + Preis \
 Damit man nicht zu viel abbuchen kann brauch ich die Preise dazu..
 
-## return
+### return
 
 ```json
 { 
@@ -89,7 +89,7 @@ willst du hier die einzeln aufgelisteten Getränke oder einfach nur den Wert den
 
 # PUT ``/recharge``
 
-## payload
+### payload
 
 Hier wahrscheinlich ganz simpel
 
@@ -100,7 +100,7 @@ Hier wahrscheinlich ganz simpel
 }
 ```
 
-## return
+### return
 
 ```json
 {
