@@ -6,11 +6,7 @@ import RechargeDialog from './userCard/RechargeDialog';
 import UserCard from './userCard/UserCard';
 import { useNavigate } from 'react-router-dom';
 import { useColorMode } from '../ColorModeContext';
-
-interface user {
-    name: string,
-    amount: number
-}
+import { user } from '../hooks/useFetchUsers';
 
 interface HomeProps {
     onLogoutClick: () => void
