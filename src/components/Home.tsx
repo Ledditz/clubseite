@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import SearchBar from './SearchBar';
 import BuyDialog from './userCard/BuyDialog';
@@ -51,8 +51,16 @@ const Home = (props: HomeProps) => {
     const [drinkData, setDrinkData] = useState<any>({})
     const [rechargeData, setRechargeData] = useState<any>({})
     const [filteredUserData, setFilteredUserData] = useState<user[]>([])
+    const [sortedUsers, setSortedUsers] = useState<user[]>([])
     const { mode } = useColorMode()
     const navigate = useNavigate()
+
+
+    useEffect(() => {
+        let users = filteredUserData
+        setSortedUsers(users.sort((a, b) => a.name > b.name ? 1 : -1))
+
+    }, [filteredUserData])
 
     const handleExpandChange = (idx: number) => {
         setIsExpanded(idx === isExpanded ? -1 : idx)
@@ -100,7 +108,7 @@ const Home = (props: HomeProps) => {
         <Box bgcolor={mode === 'light' ? "lightgrey" : "grey"}>
             <SearchBar onInputChange={handleInputChange} onLogoutClick={handleLogoutClick} />
             <Stack direction="column" alignItems="flex-start" justifyContent="center" marginTop={8} paddingTop={2}>
-                {filteredUserData.map((user, idx) =>
+                {sortedUsers.map((user, idx) =>
                     <UserCard
                         key={idx}
                         name={user.name}
