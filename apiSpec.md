@@ -58,7 +58,7 @@ Man müsste mindestens die Vorstandsmitglieder irgendwie markieren, weil die ja 
     "role": "vorstand" | "kern" | "rest"
 ```
 
-oder halt fancy englische Bezeichnungen :D
+oder halt fancy englische Bezeichnungen oder einfach Ziffern.
 
 # GET ``/drinks``
 
