@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, CircularProgress, Stack, Typography } from '@mui/material';
+import { Alert, AlertTitle, Backdrop, Box, CircularProgress, Collapse, Stack, Typography } from '@mui/material';
 import SearchBar from './SearchBar';
 import BuyDialog from './userCard/BuyDialog';
 import RechargeDialog from './userCard/RechargeDialog';
@@ -7,6 +7,7 @@ import UserCard from './userCard/UserCard';
 import { useNavigate } from 'react-router-dom';
 import { useColorMode } from '../ColorModeContext';
 import { useFetchUsers, user } from '../hooks/useFetchUsers';
+import { useSendApiCall } from '../hooks/useSendApiCall';
 
 interface HomeProps {
     onLogoutClick: () => void
@@ -32,7 +33,8 @@ const Home = (props: HomeProps) => {
     const [sortedUsers, setSortedUsers] = useState<user[]>([])
     const { mode } = useColorMode()
     const navigate = useNavigate()
-
+    const { error: sendError, isLoading: sendIsLoading, sendData } = useSendApiCall('/buy')
+    const [showAlert, setShowAlert] = useState(false)
 
     useEffect(() => {
         let users = filteredUserData
@@ -43,6 +45,15 @@ const Home = (props: HomeProps) => {
     useEffect(() => {
         setFilteredUserData(users)
     }, [users])
+
+    useEffect(() => {
+        setShowAlert(sendError)
+        if (sendError)
+            setTimeout(() => {
+                console.log("genug Informiert")
+                setShowAlert(false)
+            }, 3000)
+    }, [sendError])
 
     const handleExpandChange = (idx: number) => {
         setIsExpanded(idx === isExpanded ? -1 : idx)
@@ -57,6 +68,18 @@ const Home = (props: HomeProps) => {
     const handleCloseDialog = () => {
         setDialogOpen('')
         setIsExpanded(-1)
+    }
+
+    const handleConfirmBuyDialog = () => {
+        console.log('buy ', drinkData)
+        sendData({ "test": "123" })
+        handleCloseDialog()
+    }
+
+    const handleConfirmRechargeDialog = (_amount: number) => {
+        console.log('recharge:', _amount, rechargeData)
+        sendData({ "test": "456" })
+        handleCloseDialog()
     }
 
     const handleRechargeClick = (rechargeObj: rechargeObj) => {
@@ -126,9 +149,25 @@ const Home = (props: HomeProps) => {
         <Box bgcolor={mode === 'light' ? "lightgrey" : "grey"}>
             <SearchBar onInputChange={handleInputChange} onLogoutClick={handleLogoutClick} />
             {showContent()}
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={sendIsLoading}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            <Collapse in={showAlert} sx={{
+                position: "fixed",
+                bottom: 0,
+                width: '100vw'
+            }}>
+                <Alert severity="error" >
+                    <AlertTitle>Achtung</AlertTitle>
+                    Das hat leider nicht funktioniert!
+                </Alert>
+            </Collapse>
 
-            {dialogOpen === 'buy' && <BuyDialog open onClose={handleCloseDialog} drinksData={drinkData} />}
-            {dialogOpen === 'recharge' && <RechargeDialog open onClose={handleCloseDialog} rechargeObj={rechargeData} />}
+            {dialogOpen === 'buy' && <BuyDialog open onClose={handleCloseDialog} onConfirm={handleConfirmBuyDialog} drinksData={drinkData} />}
+            {dialogOpen === 'recharge' && <RechargeDialog open onClose={handleCloseDialog} onConfirm={handleConfirmRechargeDialog} rechargeObj={rechargeData} />}
         </Box>
 
     )

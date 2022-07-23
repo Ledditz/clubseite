@@ -4,11 +4,12 @@ import { rechargeObj } from '../Home';
 
 interface RechargeDialogProps extends DialogProps {
     onClose: () => void,
-    rechargeObj: rechargeObj
+    rechargeObj: rechargeObj,
+    onConfirm: (amount: number) => void
 }
 
 const RechargeDialog = (props: RechargeDialogProps) => {
-    const { onClose, rechargeObj: { rechargeAmount, user } } = props
+    const { onClose, onConfirm, rechargeObj: { rechargeAmount, user } } = props
     const [inputValue, setInputValue] = useState<number | string>('')
     const [inputError, setInputError] = useState(false)
     const [showInputPrompt, setShowInputPromp] = useState(false)
@@ -22,7 +23,9 @@ const RechargeDialog = (props: RechargeDialogProps) => {
     const handleClose = (_status: 'confirm' | 'cancel') => {
         if (_status === 'confirm' && !inputError) {
             console.log("send API request")
-            console.log(Number(inputValue).toFixed(2) + " aufladen")
+            onConfirm(Number(inputValue))
+            setInputValue('')
+            return;
         }
         setInputValue('')
         onClose()

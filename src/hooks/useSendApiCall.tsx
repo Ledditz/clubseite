@@ -9,6 +9,7 @@ export const useSendApiCall = (url: string) => {
         // hier müsste jetzt die magie passieren
         if (!loading) {
             setLoading(true)
+            setError(false)
             console.log(url, data)
             setTimeout(() => {
                 console.log("fertig")

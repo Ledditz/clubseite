@@ -3,18 +3,12 @@ import { buyObj } from '../Home';
 
 interface BuyDialogProps extends DialogProps {
     onClose: () => void,
-    drinksData: buyObj
+    drinksData: buyObj,
+    onConfirm: () => void
 }
 
 const BuyDialog = (props: BuyDialogProps) => {
-    const { open, onClose, drinksData: { selectedDrinks, user } } = props
-
-    const handleClose = (_status: 'confirm' | 'cancel') => {
-        if (_status === 'confirm') {
-            console.log("send API request")
-        }
-        onClose()
-    }
+    const { open, onClose, onConfirm, drinksData: { selectedDrinks, user } } = props
 
     const getDrinkTable = () => {
         let returnObj: any = [];
@@ -25,7 +19,7 @@ const BuyDialog = (props: BuyDialogProps) => {
     }
 
     return (
-        <Dialog open={open} onClose={() => handleClose('cancel')} fullWidth={true}>
+        <Dialog open={open} onClose={() => onClose()} fullWidth={true}>
             <DialogTitle>
                 Kauf bestätigen
             </DialogTitle>
@@ -39,8 +33,8 @@ const BuyDialog = (props: BuyDialogProps) => {
 
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => handleClose('cancel')}>Abbruch</Button>
-                <Button onClick={() => handleClose('confirm')}>zum hä</Button>
+                <Button onClick={() => onClose()}>Abbruch</Button>
+                <Button onClick={() => onConfirm()}>zum hä</Button>
             </DialogActions>
         </Dialog>
     )
