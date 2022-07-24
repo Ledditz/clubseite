@@ -17,6 +17,13 @@ export const ColorModeContextProvider = ({ children }: any) => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark')
 
     useEffect(() => {
+        const themeMode = localStorage.getItem("themeMode")
+        if (themeMode && (themeMode === "light" || themeMode === "dark")) {
+            setMode(themeMode)
+        }
+    }, [])
+
+    useEffect(() => {
         if (prefersDarkMode) {
             setMode('dark')
         }
@@ -25,6 +32,7 @@ export const ColorModeContextProvider = ({ children }: any) => {
     const colorMode = useMemo(
         () => ({
             toggleColorMode: () => {
+                localStorage.setItem('themeMode', mode === "light" ? "dark" : "light")
                 setMode((prev) => prev === 'light' ? 'dark' : 'light')
             },
             mode,
