@@ -8,7 +8,7 @@ interface BuyDialogProps extends DialogProps {
 }
 
 const BuyDialog = (props: BuyDialogProps) => {
-    const { open, onClose, onConfirm, drinksData: { selectedDrinks, user } } = props
+    const { open, onClose, onConfirm, drinksData: { selectedDrinks, userName } } = props
 
     const getDrinkTable = () => {
         let returnObj: any = [];
@@ -24,7 +24,7 @@ const BuyDialog = (props: BuyDialogProps) => {
                 Kauf bestätigen
             </DialogTitle>
             <DialogContent>
-                <Typography>Für {user} gibts:</Typography>
+                <Typography>Für {userName} gibts:</Typography>
                 <Box paddingLeft={4}>
                     {
                         getDrinkTable()

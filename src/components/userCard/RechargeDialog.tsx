@@ -9,7 +9,7 @@ interface RechargeDialogProps extends DialogProps {
 }
 
 const RechargeDialog = (props: RechargeDialogProps) => {
-    const { onClose, onConfirm, rechargeObj: { rechargeAmount, user } } = props
+    const { onClose, onConfirm, rechargeObj: { rechargeAmount, userID, userName } } = props
     const [inputValue, setInputValue] = useState<number | string>('')
     const [inputError, setInputError] = useState(false)
     const [showInputPrompt, setShowInputPromp] = useState(false)
@@ -18,11 +18,10 @@ const RechargeDialog = (props: RechargeDialogProps) => {
 
     useEffect(() => {
         setShowInputPromp(rechargeAmount === 'new')
-    }, [rechargeAmount, user])
+    }, [rechargeAmount, userID])
 
     const handleClose = (_status: 'confirm' | 'cancel') => {
         if (_status === 'confirm' && !inputError) {
-            console.log("send API request")
             onConfirm(Number(inputValue))
             setInputValue('')
             return;
@@ -69,7 +68,7 @@ const RechargeDialog = (props: RechargeDialogProps) => {
                 {
                     !showInputPrompt
                         ? <>
-                            <Typography display='inline'>Für {user}</Typography>
+                            <Typography display='inline'>Für {userName}</Typography>
                             <Typography display='inline' variant='h6' color='primary'> {getAmountString(Number(inputValue))}€</Typography>
                             <Typography display='inline'> aufladen?</Typography>
                         </>

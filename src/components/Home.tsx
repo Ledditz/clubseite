@@ -14,11 +14,13 @@ interface HomeProps {
 }
 
 export interface buyObj {
-    user: string,
+    userID: string,
+    userName: string,
     selectedDrinks: any
 }
 export interface rechargeObj {
-    user: string,
+    userID: string,
+    userName: string,
     rechargeAmount: number | 'new'
 }
 
@@ -26,14 +28,14 @@ const Home = (props: HomeProps) => {
     const { onLogoutClick } = props
     const [isExpanded, setIsExpanded] = useState<number>(-1)
     const [dialogOpen, setDialogOpen] = useState<string>('')
-    const [drinkData, setDrinkData] = useState<any>({})
-    const [rechargeData, setRechargeData] = useState<any>({})
+    const [drinkData, setDrinkData] = useState<buyObj>()
+    const [rechargeData, setRechargeData] = useState<rechargeObj>()
     const { users, isLoading, error } = useFetchUsers()
     const [filteredUserData, setFilteredUserData] = useState<user[]>([])
     const [sortedUsers, setSortedUsers] = useState<user[]>([])
     const { mode } = useColorMode()
     const navigate = useNavigate()
-    const { error: sendError, isLoading: sendIsLoading, sendData } = useSendApiCall('/buy')
+    const { error: sendError, isLoading: sendIsLoading, sendData } = useSendApiCall()
     const [showAlert, setShowAlert] = useState(false)
 
     useEffect(() => {
@@ -50,9 +52,8 @@ const Home = (props: HomeProps) => {
         setShowAlert(sendError)
         if (sendError)
             setTimeout(() => {
-                console.log("genug Informiert")
                 setShowAlert(false)
-            }, 3000)
+            }, 5000)
     }, [sendError])
 
     const handleExpandChange = (idx: number) => {
@@ -71,14 +72,14 @@ const Home = (props: HomeProps) => {
     }
 
     const handleConfirmBuyDialog = () => {
-        console.log('buy ', drinkData)
-        sendData({ "test": "123" })
+        // console.log('buy ', drinkData)
+        sendData("/buy", { "userID": drinkData?.userID, "rest": drinkData?.selectedDrinks })
         handleCloseDialog()
     }
 
     const handleConfirmRechargeDialog = (_amount: number) => {
-        console.log('recharge:', _amount, rechargeData)
-        sendData({ "test": "456" })
+        // console.log('recharge:', _amount, rechargeData)
+        sendData("/recharge", { "userID": rechargeData?.userID, "amount": _amount })
         handleCloseDialog()
     }
 
@@ -131,8 +132,7 @@ const Home = (props: HomeProps) => {
                 {sortedUsers.map((user, idx) =>
                     <UserCard
                         key={idx}
-                        name={user.name}
-                        amount={user.amount}
+                        user={user}
                         onExpand={handleExpandChange}
                         expandIdx={idx}
                         expandedIdx={isExpanded}
@@ -160,14 +160,14 @@ const Home = (props: HomeProps) => {
                 bottom: 0,
                 width: '100vw'
             }}>
-                <Alert severity="error" >
+                <Alert severity="error" onClose={() => setShowAlert(false)}>
                     <AlertTitle>Achtung</AlertTitle>
                     Das hat leider nicht funktioniert!
                 </Alert>
             </Collapse>
 
-            {dialogOpen === 'buy' && <BuyDialog open onClose={handleCloseDialog} onConfirm={handleConfirmBuyDialog} drinksData={drinkData} />}
-            {dialogOpen === 'recharge' && <RechargeDialog open onClose={handleCloseDialog} onConfirm={handleConfirmRechargeDialog} rechargeObj={rechargeData} />}
+            {dialogOpen === 'buy' && drinkData && <BuyDialog open onClose={handleCloseDialog} onConfirm={handleConfirmBuyDialog} drinksData={drinkData} />}
+            {dialogOpen === 'recharge' && rechargeData && <RechargeDialog open onClose={handleCloseDialog} onConfirm={handleConfirmRechargeDialog} rechargeObj={rechargeData} />}
         </Box>
 
     )

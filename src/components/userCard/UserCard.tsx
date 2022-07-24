@@ -2,14 +2,14 @@ import { Card, Collapse, Container, IconButton, IconButtonProps, Stack, styled, 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CardFlyout from './CardFlyout';
 import { buyObj, rechargeObj } from '../Home';
+import { user } from '../../hooks/useFetchUsers';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
 
 interface UserCardProps {
-    name: string,
-    amount: number,
+    user: user
     expandIdx: number,
     onExpand: (idx: number) => void,
     expandedIdx: number,
@@ -35,21 +35,23 @@ const StyledCard = styled(Card)({
 })
 
 const UserCard = (props: UserCardProps) => {
-    const { name, amount, expandIdx, expandedIdx, onExpand, onBuyClick, onRechargeClick } = props
+    const { user: { name, amount, id }, expandIdx, expandedIdx, onExpand, onBuyClick, onRechargeClick } = props
     const roundedAmount = amount.toFixed(2)
     const isExpanded = expandedIdx === expandIdx
 
     const handleBuyClick = (_selectedDrinks: any) => {
         if (Object.keys(_selectedDrinks).length !== 0)
             onBuyClick({
-                user: name,
+                userID: id,
+                userName: name,
                 selectedDrinks: _selectedDrinks
             })
     }
 
     const handleRechargeClick = (_amount: number | 'new') => {
         onRechargeClick({
-            user: name,
+            userID: id,
+            userName: name,
             rechargeAmount: _amount
         })
     }

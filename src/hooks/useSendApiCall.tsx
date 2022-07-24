@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-export const useSendApiCall = (url: string) => {
+export const useSendApiCall = () => {
     const [loading, setLoading] = useState(false)
     const [response, setResponse] = useState<any>({})
     const [error, setError] = useState(false)
 
-    const sendData = (data: any) => {
+    const sendData = (url: string, data: any) => {
         // hier müsste jetzt die magie passieren
         if (!loading) {
             setLoading(true)
